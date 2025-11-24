@@ -1,68 +1,113 @@
+@import "tailwindcss";
+
+/* =========
+   Variables
+   ========= */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Palette par défaut — "Oceans Eleven" (bleus/violets) */
+  --g1: #6aa1ff;
+  --g2: #6b7cff;
+  --g3: #5860ff;
+  --g4: #5e4bff;
+  --g5: #3b2fd6;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --bg: #0b1020;         /* fond page */
+  --card: #0f162f;       /* surfaces */
+  --text: #e6eaf2;       /* texte */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* Thèmes alternatifs (change juste les 5 stops) */
+.theme-sunset { --g1:#ff7a7a; --g2:#ff9f7a; --g3:#ffb86b; --g4:#ff7ad1; --g5:#ff6bd9; }
+.theme-forest { --g1:#4ade80; --g2:#22d3ee; --g3:#34d399; --g4:#10b981; --g5:#0ea5e9; }
+
+/* ==========================
+   Keyframes / animations
+   ========================== */
+@keyframes pan-slow {
+  0%   { transform: translate3d(-2%, 0, 0) scale(1.02); }
+  50%  { transform: translate3d(2%, -2%, 0) scale(1.04); }
+  100% { transform: translate3d(-2%, 0, 0) scale(1.02); }
 }
-a:hover {
-  color: #535bf2;
+@keyframes floaty {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-10px); }
+}
+@keyframes hue {
+  0% { filter: hue-rotate(0deg) }
+  100% { filter: hue-rotate(-6deg) }
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+/* =========================================
+   Utilitaires “neat” (v4: @utility = classes)
+   ========================================= */
+
+/* Fond “neat” à couches, autonome */
+@utility neat-bg {
+  @apply relative isolate overflow-hidden text-[var(--text)];
+  background: radial-gradient(1200px 800px at 10% -10% , color-mix(in oklab, var(--g1) 22%, transparent), transparent 55%),
+              radial-gradient(1400px 900px at 90% 110%, color-mix(in oklab, var(--g2) 18%, transparent), transparent 50%),
+              linear-gradient(180deg, color-mix(in oklab, var(--g3) 14%, transparent), transparent 40%),
+              var(--bg);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Vagues “3D” (pseudo-éléments) */
+.neat-bg::before,
+.neat-bg::after {
+  content: "";
+  position: absolute;
+  inset: -10% -10% auto -10%;
+  height: 75%;
+  background:
+    radial-gradient(1200px 600px at 50% 0%,
+      color-mix(in oklab, var(--g4) 22%, transparent), transparent 60%),
+    radial-gradient(800px 400px at 30% 40%,
+      color-mix(in oklab, var(--g5) 20%, transparent), transparent 60%);
+  opacity: .9;
+  animation: pan-slow 16s ease-in-out infinite alternate;
+  transform-origin: 50% 30%;
+  pointer-events: none;
+  z-index: -1;
+}
+.neat-bg::after {
+  inset: 30% -15% -10% -15%;
+  height: 90%;
+  filter: blur(18px) saturate(1.1);
+  opacity: .7;
+  animation-duration: 22s;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* Grain doux optionnel */
+@utility neat-noise {
+  @apply relative;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.neat-noise::after{
+  content:"";
+  position:absolute; inset:-1px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+  pointer-events:none; z-index:1;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* Texte en dégradé “NEAT” */
+@utility neat-grad-text {
+  background: linear-gradient(180deg, var(--g1), var(--g3) 55%, var(--g5));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Cartes translucides compatibles */
+@utility neat-card {
+  @apply rounded-xl border border-white/10 bg-[color-mix(in_oklab,var(--card)_85%,transparent)] backdrop-blur-md shadow-[0_10px_40px_-20px_rgba(0,0,0,.6)];
+}
+
+/* Flottement subtil (pour icônes, cards, boutons) */
+@utility animate-floaty { animation: floaty 6s ease-in-out infinite; }
+
+/* Petite dérive chromatique globale optionnelle */
+@utility neat-shift { animation: hue 10s ease-in-out infinite alternate; }
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .neat-bg::before, .neat-bg::after, .animate-floaty, .neat-shift { animation: none !important; }
 }
