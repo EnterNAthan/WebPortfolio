@@ -1,68 +1,104 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 // Exemple de données de projets - À remplacer par vos vraies données
 const projects = [
   {
     id: 1,
-    title: 'Projet 1',
-    description: 'Description courte du projet',
+    title: 'Application Web de Gestion',
+    description: 'Développement d\'une application full-stack avec React et Node.js',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Marketing', 'Communication'],
+    tags: ['Web', 'Full-Stack'],
+    competences: ['Réaliser', 'Optimiser'],
     date: '2024',
   },
   {
     id: 2,
-    title: 'Projet 2',
-    description: 'Description courte du projet',
+    title: 'Plateforme de Cybersécurité',
+    description: 'Outil de détection et analyse de vulnérabilités',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Design', 'Web'],
+    tags: ['Cybersécurité', 'Python'],
+    competences: ['Réaliser', 'Collaborer'],
     date: '2024',
   },
   {
     id: 3,
-    title: 'Projet 3',
-    description: 'Description courte du projet',
+    title: 'API REST Optimisée',
+    description: 'Conception et optimisation d\'une API performante',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Social Media', 'Content'],
-    date: '2023',
+    tags: ['Backend', 'Performance'],
+    competences: ['Optimiser', 'Réaliser'],
+    date: '2024',
   },
   {
     id: 4,
-    title: 'Projet 4',
-    description: 'Description courte du projet',
+    title: 'Projet Collaboratif en Équipe',
+    description: 'Gestion de projet agile avec méthodologie Scrum',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Branding', 'Strategy'],
+    tags: ['Management', 'Agile'],
+    competences: ['Collaborer'],
     date: '2023',
   },
   {
     id: 5,
-    title: 'Projet 5',
-    description: 'Description courte du projet',
+    title: 'Architecture Microservices',
+    description: 'Refonte d\'une application monolithique en microservices',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Marketing', 'Analytics'],
+    tags: ['Architecture', 'DevOps'],
+    competences: ['Réaliser', 'Optimiser', 'Collaborer'],
     date: '2023',
   },
   {
     id: 6,
-    title: 'Projet 6',
-    description: 'Description courte du projet',
+    title: 'Dashboard Analytique',
+    description: 'Interface de visualisation de données temps réel',
     image: 'https://via.placeholder.com/400x300',
-    tags: ['Communication', 'Events'],
-    date: '2022',
+    tags: ['Frontend', 'Data'],
+    competences: ['Réaliser', 'Optimiser'],
+    date: '2023',
   },
 ];
 
 const allTags = ['Tous', ...Array.from(new Set(projects.flatMap((p) => p.tags)))];
 
-export default function Projects() {
-  const [selectedTag, setSelectedTag] = useState('Tous');
+// Couleurs des compétences (même palette que CompetencesChart)
+const competenceColors: Record<string, { bg: string; text: string; border: string }> = {
+  'Réaliser': { bg: 'bg-[#FFA800]/20', text: 'text-[#FFA800]', border: 'border-[#FFA800]/30' },
+  'Optimiser': { bg: 'bg-[#FF8C00]/20', text: 'text-[#FF8C00]', border: 'border-[#FF8C00]/30' },
+  'Collaborer': { bg: 'bg-[#00FFE0]/20', text: 'text-[#00FFE0]', border: 'border-[#00FFE0]/30' },
+};
 
-  const filteredProjects =
-    selectedTag === 'Tous'
-      ? projects
-      : projects.filter((p) => p.tags.includes(selectedTag));
+export default function Projects() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedTag, setSelectedTag] = useState('Tous');
+  const [selectedCompetence, setSelectedCompetence] = useState<string | null>(null);
+
+  // Lire le paramètre de compétence depuis l'URL
+  useEffect(() => {
+    const competenceParam = searchParams.get('competence');
+    if (competenceParam && ['Réaliser', 'Optimiser', 'Collaborer'].includes(competenceParam)) {
+      setSelectedCompetence(competenceParam);
+    }
+  }, [searchParams]);
+
+  // Filtrer par compétence ET par tag
+  const filteredProjects = projects.filter((p) => {
+    const matchesTag = selectedTag === 'Tous' || p.tags.includes(selectedTag);
+    const matchesCompetence = !selectedCompetence || p.competences.includes(selectedCompetence);
+    return matchesTag && matchesCompetence;
+  });
+
+  // Fonction pour sélectionner une compétence
+  const handleCompetenceClick = (competence: string) => {
+    if (selectedCompetence === competence) {
+      setSelectedCompetence(null);
+      setSearchParams({});
+    } else {
+      setSelectedCompetence(competence);
+      setSearchParams({ competence });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0a0a0a] to-[#1a1a1a]">
@@ -85,13 +121,55 @@ export default function Projects() {
             </p>
           </motion.div>
 
+          {/* Filtres par Compétences BUT */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.8 }}
+            className="mt-10"
+          >
+            <h3 className="text-sm font-semibold text-white/50 uppercase tracking-wider mb-3">
+              Filtrer par Compétence BUT
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {['Réaliser', 'Optimiser', 'Collaborer'].map((competence) => {
+                const colors = competenceColors[competence];
+                const isSelected = selectedCompetence === competence;
+                return (
+                  <button
+                    key={competence}
+                    onClick={() => handleCompetenceClick(competence)}
+                    className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all border ${
+                      isSelected
+                        ? `${colors.bg} ${colors.text} ${colors.border} border-2 scale-105`
+                        : 'bg-white/5 text-white/60 hover:bg-white/10 border-white/10'
+                    }`}
+                  >
+                    {competence}
+                  </button>
+                );
+              })}
+              {selectedCompetence && (
+                <button
+                  onClick={() => handleCompetenceClick(selectedCompetence)}
+                  className="px-4 py-2.5 rounded-full text-sm font-medium bg-white/5 text-white/40 hover:bg-white/10 border border-white/10 transition-all"
+                >
+                  Réinitialiser
+                </button>
+              )}
+            </div>
+          </motion.div>
+
           {/* Filter Tags */}
           <motion.div
-            className="flex flex-wrap gap-3 mt-10"
+            className="flex flex-wrap gap-3 mt-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
+            <h3 className="w-full text-sm font-semibold text-white/50 uppercase tracking-wider mb-1">
+              Filtrer par Technologie
+            </h3>
             {allTags.map((tag) => (
               <button
                 key={tag}
