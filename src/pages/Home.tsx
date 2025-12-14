@@ -31,7 +31,7 @@ const neatConfig = {
   grainSpeed: 0,
   resolution: 1,
   yOffset: 0,
-} as const;
+};
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 // Exemple: Hero avec fond animé Neat et contenu par-dessus
-import NeatBackground from "../components/neatBackground";
+import NeatBackground from "../components/NeatBackground";
 
 const neatConfig = {
     colors: [
@@ -29,7 +29,7 @@ const neatConfig = {
     grainSpeed: 10,
     resolution: 1, // baisse à .5 sur mobile si besoin
     yOffset: 0,
-} as const;
+};
 
 export default function Hero() {
     return (

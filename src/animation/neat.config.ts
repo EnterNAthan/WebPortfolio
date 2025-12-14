@@ -1,4 +1,4 @@
-import { NeatConfig } from "@firecms/neat";
+import type { NeatConfig } from "@firecms/neat";
 
 export const neatConfig: NeatConfig = {
     colors: [
