@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 interface GenericPageProps {
   title: string;
@@ -33,77 +34,205 @@ export default function GenericPage({ title, subtitle, children }: GenericPagePr
 
 // Pages spécifiques utilisant GenericPage
 export function Formation() {
+  // Données de la timeline
+  const timelineData = [
+    {
+      year: '2019-2022',
+      left: {
+        type: 'formation',
+        title: 'Baccalauréat STI2D',
+        subtitle: 'Option : ITEC (Innovation Technologique et Éco-Conception)',
+        description: 'Formation technologique axée sur l\'innovation, la conception et l\'ingénierie.',
+        badge: 'BAC',
+        color: 'white/10',
+      },
+      right: {
+        type: 'experience',
+        title: 'McDonald\'s Longwy',
+        subtitle: 'Employé polyvalent',
+        description: 'Service client, gestion de caisse et travail en équipe. De la Première à la Terminale.',
+        location: 'Longwy, France',
+      },
+    },
+    {
+      year: '2022-2024',
+      left: {
+        type: 'formation',
+        title: 'BTS CIEL',
+        subtitle: 'Cybersécurité, Informatique et réseaux, Électronique',
+        description: 'Formation technique en systèmes informatiques, réseaux, et cybersécurité. Option : Informatique et Réseaux',
+        badge: 'BTS',
+        color: '[#00FFE0]/20',
+        borderColor: '[#00FFE0]/30',
+        textColor: '[#00FFE0]',
+      },
+      right: {
+        type: 'experience',
+        title: 'McDonald\'s Longwy + Morganite Luxembourg',
+        subtitle: 'Employé polyvalent + Ouvrier d\'usine',
+        description: 'Continuation au McDonald\'s et travail saisonnier à l\'usine Morganite Luxembourg pendant les étés.',
+        location: 'Longwy & Luxembourg',
+      },
+    },
+    {
+      year: '2023-2025',
+      left: null,
+      right: {
+        type: 'experience',
+        title: 'Optinove Nancy',
+        subtitle: 'Administrateur système et support informatique',
+        description: 'Alternance en administration système, gestion de réseaux et support utilisateur.',
+        location: 'Nancy, France',
+      },
+    },
+    {
+      year: '2024-2025',
+      left: {
+        type: 'formation',
+        title: 'BUT 3 Informatique',
+        subtitle: 'Parcours A : Développement logiciel',
+        description: 'Formation approfondie en développement logiciel, architecture applicative, et gestion de projets informatiques.',
+        badge: 'BUT 3',
+        color: 'gradient-to-r from-[#FFA800] to-[#00FFE0]',
+        textColor: 'black',
+        isGradient: true,
+      },
+      right: null,
+    },
+    {
+      year: '2025-Present',
+      left: null,
+      right: {
+        type: 'experience',
+        title: 'IUT Annecy - Département Informatique',
+        subtitle: 'Développeur logiciel et web',
+        description: 'Alternance dans le département informatique de l\'IUT, conception de logiciels et développement de sites web.',
+        location: 'Annecy, France',
+        current: true,
+      },
+    },
+  ];
+
   return (
     <GenericPage
       title="Ma formation"
-      subtitle="Mon parcours académique"
+      subtitle="Mon parcours académique et professionnel"
     >
-      <div className="space-y-8">
-        <motion.div
-          className="p-8 rounded-2xl bg-white/5 border border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="flex items-start gap-6">
-            <div className="w-16 h-16 rounded-lg bg-gradient-to-r from-[#FFA800] to-[#00FFE0] flex items-center justify-center flex-shrink-0">
-              <span className="text-xl font-bold text-black">BUT 3</span>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                BUT 3 Informatique
-              </h3>
-              <p className="text-white/60 mb-4">2024 - 2025 • Parcours A : Développement logiciel</p>
-              <p className="text-white/70">
-                Formation approfondie en développement logiciel, architecture applicative, et gestion de projets informatiques.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+      <div className="relative">
+        {/* Timeline centrale verticale */}
+        <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#FFA800] via-[#FF8C00] to-[#00FFE0] transform -translate-x-1/2" />
 
-        <motion.div
-          className="p-8 rounded-2xl bg-white/5 border border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="flex items-start gap-6">
-            <div className="w-16 h-16 rounded-lg bg-[#00FFE0]/20 border border-[#00FFE0]/30 flex items-center justify-center flex-shrink-0">
-              <span className="text-xl font-bold text-[#00FFE0]">BTS</span>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                BTS CIEL - Cybersécurité, Informatique et réseaux, Électronique
-              </h3>
-              <p className="text-white/60 mb-4">2022 - 2024 • Option : Informatique et Réseaux</p>
-              <p className="text-white/70">
-                Formation technique en systèmes informatiques, réseaux, et cybersécurité.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+        {/* Timeline items */}
+        <div className="space-y-16">
+          {timelineData.map((item, index) => (
+            <motion.div
+              key={index}
+              className="relative grid grid-cols-2 gap-8 items-start"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              {/* Left side - Formation */}
+              <div className="text-right pr-8">
+                {item.left ? (
+                  <motion.div
+                    className="inline-block text-left p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all group"
+                    whileHover={{ scale: 1.02, x: -5 }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`w-14 h-14 rounded-lg ${
+                          item.left.isGradient
+                            ? `bg-${item.left.color}`
+                            : `bg-${item.left.color}`
+                        } flex items-center justify-center flex-shrink-0 ${
+                          item.left.borderColor ? `border border-${item.left.borderColor}` : ''
+                        }`}
+                      >
+                        <span
+                          className={`text-lg font-bold ${
+                            item.left.textColor ? `text-${item.left.textColor}` : 'text-white'
+                          }`}
+                        >
+                          {item.left.badge}
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-white mb-1 group-hover:text-[#FFA800] transition-colors">
+                          {item.left.title}
+                        </h3>
+                        <p className="text-sm text-white/60 mb-3">{item.left.subtitle}</p>
+                        <p className="text-sm text-white/70">{item.left.description}</p>
+                      </div>
+                    </div>
 
-        <motion.div
-          className="p-8 rounded-2xl bg-white/5 border border-white/10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="flex items-start gap-6">
-            <div className="w-16 h-16 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-xl font-bold text-white">BAC</span>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Baccalauréat STI2D
-              </h3>
-              <p className="text-white/60 mb-4">2022 • Option : ITEC (Innovation Technologique et Éco-Conception)</p>
-              <p className="text-white/70">
-                Formation technologique axée sur l'innovation, la conception et l'ingénierie.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-r from-[#FFA800]/5 to-transparent blur-xl -z-10" />
+                  </motion.div>
+                ) : (
+                  <div />
+                )}
+              </div>
+
+              {/* Center dot and year */}
+              <div className="absolute left-1/2 top-0 transform -translate-x-1/2 -translate-y-1">
+                <motion.div
+                  className="relative"
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 + 0.2, duration: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Outer ring */}
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#FFA800] to-[#00FFE0] flex items-center justify-center">
+                    <div className="w-3 h-3 rounded-full bg-[#0a0a0a]" />
+                  </div>
+                  {/* Year badge */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mt-12 whitespace-nowrap">
+                    <span className="px-3 py-1 rounded-full bg-[#0a0a0a] border border-white/20 text-xs font-semibold text-white/80">
+                      {item.year}
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right side - Experience */}
+              <div className="pl-8">
+                {item.right ? (
+                  <motion.div
+                    className="inline-block p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all group"
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-3 h-3 rounded-full bg-[#00FFE0] mt-1.5" />
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-white mb-1 group-hover:text-[#00FFE0] transition-colors">
+                          {item.right.title}
+                        </h3>
+                        <p className="text-sm font-semibold text-white/70 mb-1">
+                          {item.right.subtitle}
+                        </p>
+                        {item.right.current && (
+                          <span className="inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-[#00FFE0]/20 text-[#00FFE0] border border-[#00FFE0]/30 mb-2">
+                            En cours
+                          </span>
+                        )}
+                        <p className="text-sm text-white/60 mb-2">{item.right.description}</p>
+                        <p className="text-xs text-white/40">📍 {item.right.location}</p>
+                      </div>
+                    </div>
+
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none bg-gradient-to-l from-[#00FFE0]/5 to-transparent blur-xl -z-10" />
+                  </motion.div>
+                ) : (
+                  <div />
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </GenericPage>
   );
@@ -153,29 +282,217 @@ export function Competences() {
 }
 
 export function Atouts() {
+  const [openChest, setOpenChest] = useState<number | null>(null);
+
   const atouts = [
-    { titre: 'Créativité', description: 'Capacité à proposer des idées innovantes et originales' },
-    { titre: 'Travail d\'équipe', description: 'Excellente collaboration avec mes collègues' },
-    { titre: 'Autonomie', description: 'Capable de gérer mes projets de manière indépendante' },
-    { titre: 'Adaptabilité', description: 'Facilité à m\'adapter aux nouvelles situations' },
+    {
+      titre: 'Créativité',
+      description: 'Capacité à proposer des idées innovantes et originales',
+      item: '💎',
+      itemName: 'Diamond',
+      color: '#00FFE0',
+    },
+    {
+      titre: 'Travail d\'équipe',
+      description: 'Excellente collaboration avec mes collègues',
+      item: '🧱',
+      itemName: 'Command Block',
+      color: '#FFA800',
+    },
+    {
+      titre: 'Autonomie',
+      description: 'Capable de gérer mes projets de manière indépendante',
+      item: '🔴',
+      itemName: 'Redstone',
+      color: '#DC2626',
+    },
+    {
+      titre: 'Adaptabilité',
+      description: 'Facilité à m\'adapter aux nouvelles situations',
+      item: '🌀',
+      itemName: 'Ender Pearl',
+      color: '#8B5CF6',
+    },
   ];
 
   return (
     <GenericPage
       title="Mes atouts"
-      subtitle="Ce qui me caractérise"
+      subtitle="Clique sur les coffres pour découvrir mes atouts"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {atouts.map((atout, index) => (
           <motion.div
             key={atout.titre}
-            className="p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1 }}
+            className="relative"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-white mb-3">{atout.titre}</h3>
-            <p className="text-white/70">{atout.description}</p>
+            {/* Item Minecraft qui flotte au-dessus quand le coffre est ouvert */}
+            <motion.div
+              className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10"
+              initial={{ opacity: 0, y: 20, scale: 0 }}
+              animate={
+                openChest === index
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : { opacity: 0, y: 20, scale: 0 }
+              }
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <motion.div
+                className="relative"
+                animate={
+                  openChest === index
+                    ? { y: [0, -10, 0] }
+                    : {}
+                }
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <div
+                  className="text-6xl filter drop-shadow-2xl"
+                  style={{
+                    filter: `drop-shadow(0 0 20px ${atout.color})`,
+                  }}
+                >
+                  {atout.item}
+                </div>
+                <div
+                  className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold whitespace-nowrap px-2 py-1 rounded"
+                  style={{
+                    backgroundColor: atout.color,
+                    color: '#000',
+                  }}
+                >
+                  {atout.itemName}
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Coffre Minecraft */}
+            <motion.div
+              className="relative cursor-pointer select-none"
+              onClick={() => setOpenChest(openChest === index ? null : index)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* Coffre */}
+              <div className="relative bg-[#8B4513] border-4 border-[#654321] rounded-lg overflow-hidden shadow-2xl">
+                {/* Couvercle du coffre avec animation */}
+                <motion.div
+                  className="relative bg-[#A0522D] border-b-4 border-[#654321] p-4"
+                  style={{ transformOrigin: 'top' }}
+                  animate={{
+                    rotateX: openChest === index ? -90 : 0,
+                  }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                >
+                  {/* Serrure pixel art */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-8 h-8 bg-[#FFD700] border-2 border-[#B8860B] rounded-sm flex items-center justify-center">
+                      <div className="w-2 h-4 bg-[#654321] rounded-sm" />
+                    </div>
+                  </div>
+                  {/* Texture bois pixel art */}
+                  <div className="space-y-1 opacity-30">
+                    <div className="h-1 bg-[#654321] rounded" />
+                    <div className="h-1 bg-[#654321] rounded w-3/4" />
+                  </div>
+                </motion.div>
+
+                {/* Corps du coffre */}
+                <div className="bg-[#8B4513] p-6">
+                  {/* Contenu qui apparaît quand le coffre est ouvert */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={
+                      openChest === index
+                        ? { opacity: 1, y: 0 }
+                        : { opacity: 0, y: -10 }
+                    }
+                    transition={{ duration: 0.3, delay: openChest === index ? 0.2 : 0 }}
+                  >
+                    <h3
+                      className="text-2xl font-bold mb-3 font-mono"
+                      style={{ color: atout.color }}
+                    >
+                      {atout.titre}
+                    </h3>
+                    <p className="text-white/90 font-mono text-sm leading-relaxed">
+                      {atout.description}
+                    </p>
+                  </motion.div>
+
+                  {/* Message quand fermé */}
+                  {openChest !== index && (
+                    <motion.div
+                      className="text-center"
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: openChest === index ? 0 : 1 }}
+                    >
+                      <p className="text-white/60 font-mono text-sm">
+                        Clique pour ouvrir 🔓
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Texture pixel art sur les côtés */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
+                  <div className="grid grid-cols-8 grid-rows-8 h-full">
+                    {Array.from({ length: 64 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`${i % 3 === 0 ? 'bg-black' : 'bg-transparent'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Ombre portée style Minecraft */}
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-4 bg-black/30 blur-md rounded-full" />
+            </motion.div>
+
+            {/* Particules quand ouvert */}
+            {openChest === index && (
+              <>
+                <motion.div
+                  className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full"
+                  style={{ backgroundColor: atout.color }}
+                  animate={{
+                    y: [0, -30, 0],
+                    x: [0, -20, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeOut',
+                  }}
+                />
+                <motion.div
+                  className="absolute top-1/4 right-1/4 w-1 h-1 rounded-full"
+                  style={{ backgroundColor: atout.color }}
+                  animate={{
+                    y: [0, -35, 0],
+                    x: [0, 20, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: 'easeOut',
+                    delay: 0.3,
+                  }}
+                />
+              </>
+            )}
           </motion.div>
         ))}
       </div>
@@ -184,30 +501,83 @@ export function Atouts() {
 }
 
 export function Loisirs() {
-  const loisirs = [
-    { nom: 'Sport', emoji: '🏃‍♀️', description: 'Running et fitness' },
-    { nom: 'Photographie', emoji: '📸', description: 'Portraits et paysages' },
-    { nom: 'Créations manuelles', emoji: '🎨', description: 'DIY et artisanat' },
-    { nom: 'Lecture', emoji: '📚', description: 'Marketing et développement personnel' },
+  const activites = [
+    {
+      nom: 'Trail',
+      description: 'Course en montagne et sentiers naturels',
+      image: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&auto=format&fit=crop',
+      gridClass: 'md:col-span-2 md:row-span-2',
+    },
+    {
+      nom: 'Course à pied',
+      description: 'Running urbain et entraînement régulier',
+      image: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&auto=format&fit=crop',
+      gridClass: 'md:col-span-1 md:row-span-1',
+    },
+    {
+      nom: 'Surf',
+      description: 'Glisse et connexion avec l\'océan',
+      image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&auto=format&fit=crop',
+      gridClass: 'md:col-span-1 md:row-span-1',
+    },
+    {
+      nom: 'Escalade',
+      description: 'Grimpe en salle et falaise',
+      image: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800&auto=format&fit=crop',
+      gridClass: 'md:col-span-1 md:row-span-2',
+    },
+    {
+      nom: 'Randonnée',
+      description: 'Exploration des sentiers et sommets',
+      image: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=800&auto=format&fit=crop',
+      gridClass: 'md:col-span-2 md:row-span-1',
+    },
   ];
 
   return (
     <GenericPage
       title="Mes loisirs"
-      subtitle="Ce que j'aime faire pendant mon temps libre"
+      subtitle="Les activités qui me passionnent"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {loisirs.map((loisir, index) => (
+      {/* Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[200px] gap-4">
+        {activites.map((activite, index) => (
           <motion.div
-            key={loisir.nom}
-            className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            key={activite.nom}
+            className={`group relative rounded-2xl overflow-hidden cursor-pointer ${activite.gridClass}`}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            viewport={{ once: true }}
           >
-            <div className="text-6xl mb-4">{loisir.emoji}</div>
-            <h3 className="text-xl font-bold text-white mb-2">{loisir.nom}</h3>
-            <p className="text-sm text-white/60">{loisir.description}</p>
+            {/* Image de fond */}
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
+              style={{
+                backgroundImage: `url(${activite.image})`,
+              }}
+            />
+
+            {/* Overlay sombre par défaut, transparent au hover */}
+            <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-all duration-500" />
+
+            {/* Border subtile */}
+            <div className="absolute inset-0 border border-white/10 group-hover:border-white/20 rounded-2xl transition-colors duration-500" />
+
+            {/* Contenu texte - apparaît au hover */}
+            <div className="relative h-full flex flex-col justify-end p-6">
+              <div className="transform transition-all duration-500">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 opacity-100 group-hover:opacity-100 transition-opacity duration-300">
+                  {activite.nom}
+                </h3>
+                <p className="text-white/70 text-sm md:text-base opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-500">
+                  {activite.description}
+                </p>
+              </div>
+
+              {/* Ligne accent en bas */}
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#FFA800] to-[#00FFE0] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
           </motion.div>
         ))}
       </div>

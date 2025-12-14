@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 // Données des compétences BUT3 Informatique
 const competencesData = [
@@ -148,66 +150,88 @@ export default function CompetencesChart() {
               viewport={{ once: true }}
             >
               {competencesData.map((comp, index) => (
-                <motion.div
+                <Link
                   key={comp.name}
-                  className="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer group"
-                  onMouseEnter={() => setActiveIndex(index)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                  whileHover={{ scale: 1.02, x: 10 }}
+                  to={`/projects?competence=${comp.name}`}
+                  className="block"
                 >
-                  {/* Barre de couleur */}
-                  <div
-                    className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl"
-                    style={{ backgroundColor: comp.color }}
-                  />
-
-                  <div className="flex items-start gap-4">
+                  <motion.div
+                    className="relative p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all cursor-pointer group"
+                    onMouseEnter={() => setActiveIndex(index)}
+                    onMouseLeave={() => setActiveIndex(null)}
+                    whileHover={{ scale: 1.02, x: 10 }}
+                  >
+                    {/* Barre de couleur */}
                     <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ backgroundColor: `${comp.color}20` }}
-                    >
+                      className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl"
+                      style={{ backgroundColor: comp.color }}
+                    />
+
+                    <div className="flex items-start gap-4">
                       <div
-                        className="text-2xl font-bold"
-                        style={{ color: comp.color }}
+                        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ backgroundColor: `${comp.color}20` }}
                       >
-                        {comp.value}%
+                        <div
+                          className="text-2xl font-bold"
+                          style={{ color: comp.color }}
+                        >
+                          {comp.value}%
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white mb-1">
-                        {comp.name}
-                      </h3>
-                      <p className="text-white/60 text-sm mb-3">
-                        {comp.description}
-                      </p>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <h3 className="text-xl font-bold text-white">
+                            {comp.name}
+                          </h3>
+                          <ArrowRight
+                            className="text-white/40 group-hover:text-white/80 transition-all group-hover:translate-x-1"
+                            size={20}
+                          />
+                        </div>
+                        <p className="text-white/60 text-sm mb-3">
+                          {comp.description}
+                        </p>
 
-                      {/* Détails des AC */}
-                      <div className="space-y-1">
-                        {comp.details.map((detail, i) => (
-                          <div
-                            key={i}
-                            className="text-xs text-white/50 flex items-start gap-2"
+                        {/* Détails des AC */}
+                        <div className="space-y-1">
+                          {comp.details.map((detail, i) => (
+                            <div
+                              key={i}
+                              className="text-xs text-white/50 flex items-start gap-2"
+                            >
+                              <span
+                                className="mt-1 w-1 h-1 rounded-full flex-shrink-0"
+                                style={{ backgroundColor: comp.color }}
+                              />
+                              <span>{detail}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Indicateur "Voir les projets" */}
+                        <div className="mt-4 pt-3 border-t border-white/10">
+                          <span
+                            className="text-xs font-semibold inline-flex items-center gap-1.5 group-hover:gap-2 transition-all"
+                            style={{ color: comp.color }}
                           >
-                            <span
-                              className="mt-1 w-1 h-1 rounded-full flex-shrink-0"
-                              style={{ backgroundColor: comp.color }}
-                            />
-                            <span>{detail}</span>
-                          </div>
-                        ))}
+                            Voir les projets
+                            <ArrowRight size={14} />
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Hover effect */}
-                  <div
-                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                    style={{
-                      background: `radial-gradient(circle at center, ${comp.color}10, transparent)`,
-                    }}
-                  />
-                </motion.div>
+                    {/* Hover effect */}
+                    <div
+                      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                      style={{
+                        background: `radial-gradient(circle at center, ${comp.color}10, transparent)`,
+                      }}
+                    />
+                  </motion.div>
+                </Link>
               ))}
             </motion.div>
           </div>
