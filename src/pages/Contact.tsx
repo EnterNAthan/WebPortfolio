@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Linkedin, Github } from 'lucide-react';
+import { Mail, MapPin, Linkedin, Github } from 'lucide-react';
 
 export default function Contact() {
   return (
@@ -33,8 +33,7 @@ export default function Contact() {
               </h2>
 
               {[
-                { icon: Mail, label: 'Email', value: 'votre.email@exemple.com', href: 'mailto:votre.email@exemple.com' },
-                { icon: Phone, label: 'Téléphone', value: '+33 6 12 34 56 78', href: 'tel:+33612345678' },
+                { icon: Mail, label: 'Email', value: 'nathancarqueijeiroetd@gmail.com', href: 'mailto:nathancarqueijeiroetd@gmail.com' },
                 { icon: MapPin, label: 'Localisation', value: 'Annecy, France', href: null },
               ].map((item) => (
                 <motion.a
@@ -59,13 +58,17 @@ export default function Contact() {
                 </h3>
                 <div className="flex gap-4">
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/nathan-carqueijeiro-542b1b234/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 flex items-center justify-center transition-colors"
                   >
                     <Linkedin className="text-white" size={20} />
                   </a>
                   <a
-                    href="#"
+                    href="https://github.com/EnterNAthan"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 flex items-center justify-center transition-colors"
                   >
                     <Github className="text-white" size={20} />

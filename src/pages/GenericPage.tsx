@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 
 interface GenericPageProps {
   title: string;
@@ -239,40 +238,103 @@ export function Formation() {
 }
 
 export function Competences() {
-  const competences = [
-    { nom: 'React & TypeScript', niveau: 90 },
-    { nom: 'Node.js & Express', niveau: 85 },
-    { nom: 'HTML/CSS/JavaScript', niveau: 95 },
-    { nom: 'Python & Django', niveau: 80 },
-    { nom: 'Bases de données (SQL/NoSQL)', niveau: 85 },
-    { nom: 'Git & DevOps', niveau: 80 },
+  const categories = [
+    {
+      titre: 'Entrepreneuriat & Business',
+      icon: '🚀',
+      competences: ['SaaS Building', 'MVP Development', 'Service Web', 'Business Model', 'Product Management', 'Growth Hacking'],
+    },
+    {
+      titre: 'Communication & Pitch',
+      icon: '💬',
+      competences: ['Pitching', 'Présentation', 'Storytelling', 'Négociation', 'Networking', 'Public Speaking'],
+    },
+    {
+      titre: 'Gestion & Leadership',
+      icon: '👥',
+      competences: ['Gestion d\'équipe', 'Méthodologie Agile', 'Planification', 'Prise de décision', 'Mentorat', 'Organisation'],
+    },
+    {
+      titre: 'Frontend',
+      icon: '��',
+      competences: ['React', 'TypeScript', 'Tailwind CSS', 'HTML/CSS', 'JavaScript', 'Framer Motion'],
+    },
+    {
+      titre: 'Backend',
+      icon: '⚙️',
+      competences: ['Node.js', 'Express', 'Python', 'Django', 'API REST', 'Java'],
+    },
+    {
+      titre: 'Bases de données',
+      icon: '💾',
+      competences: ['PostgreSQL', 'MongoDB', 'SQL', 'NoSQL'],
+    },
+    {
+      titre: 'Outils & DevOps',
+      icon: '🛠️',
+      competences: ['Git', 'Docker', 'CI/CD', 'Linux', 'Vite'],
+    },
+    {
+      titre: 'IoT & Réseau',
+      icon: '🌐',
+      competences: ['Raspberry Pi', 'Socket', 'Réseau', 'Protocoles TCP/IP', 'Threading'],
+    },
+    {
+      titre: 'Cybersécurité',
+      icon: '🔒',
+      competences: ['Honeypots', 'Analyse de logs', 'Sécurité réseau', 'Cryptographie'],
+    },
+    {
+      titre: 'Intelligence Artificielle',
+      icon: '🤖',
+      competences: ['Perceptron', 'Prompt Engineering', 'Machine Learning', 'Réseaux de neurones', 'NLP', 'Data Science'],
+    },
   ];
 
   return (
     <GenericPage
       title="Mes compétences"
-      subtitle="Les compétences que j'ai développées"
+      subtitle="Technologies et outils que je maîtrise"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {competences.map((comp, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map((categorie, catIndex) => (
           <motion.div
-            key={comp.nom}
-            className="p-6 rounded-xl bg-white/5 border border-white/10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            key={categorie.titre}
+            className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-[#FFA800]/30 transition-all group"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: catIndex * 0.1, duration: 0.5 }}
+            viewport={{ once: true }}
           >
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-white">{comp.nom}</h3>
-              <span className="text-[#00FFE0]">{comp.niveau}%</span>
+            {/* Icône et titre */}
+            <div className="flex items-center gap-3 mb-4 pb-4 border-b border-white/10">
+              <div className="text-4xl group-hover:scale-110 transition-transform">
+                {categorie.icon}
+              </div>
+              <h3 className="text-xl font-bold text-white group-hover:text-[#FFA800] transition-colors">
+                {categorie.titre}
+              </h3>
             </div>
-            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-[#FFA800] to-[#00FFE0]"
-                initial={{ width: 0 }}
-                animate={{ width: `${comp.niveau}%` }}
-                transition={{ delay: index * 0.1 + 0.5, duration: 1, ease: "easeOut" }}
-              />
+
+            {/* Liste des compétences */}
+            <div className="flex flex-wrap gap-2">
+              {categorie.competences.map((comp, compIndex) => (
+                <motion.span
+                  key={comp}
+                  className="px-3 py-1.5 rounded-lg text-sm bg-white/5 text-white/80 border border-white/10 hover:bg-gradient-to-r hover:from-[#FFA800]/20 hover:to-[#00FFE0]/20 hover:border-[#00FFE0]/30 transition-all cursor-default"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: catIndex * 0.1 + compIndex * 0.05, duration: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  {comp}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Effet de glow au hover */}
+            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none -z-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#FFA800]/5 to-[#00FFE0]/5 blur-xl" />
             </div>
           </motion.div>
         ))}
@@ -282,217 +344,102 @@ export function Competences() {
 }
 
 export function Atouts() {
-  const [openChest, setOpenChest] = useState<number | null>(null);
-
   const atouts = [
     {
       titre: 'Créativité',
-      description: 'Capacité à proposer des idées innovantes et originales',
-      item: '💎',
-      itemName: 'Diamond',
-      color: '#00FFE0',
-    },
-    {
-      titre: 'Travail d\'équipe',
-      description: 'Excellente collaboration avec mes collègues',
-      item: '🧱',
-      itemName: 'Command Block',
+      description: 'Innovation et originalité dans la résolution de problèmes',
+      icon: '💡',
       color: '#FFA800',
     },
     {
+      titre: 'Travail d\'équipe',
+      description: 'Collaboration efficace et communication constructive',
+      icon: '🤝',
+      color: '#00FFE0',
+    },
+    {
       titre: 'Autonomie',
-      description: 'Capable de gérer mes projets de manière indépendante',
-      item: '🔴',
-      itemName: 'Redstone',
-      color: '#DC2626',
+      description: 'Gestion indépendante des projets et initiatives',
+      icon: '🎯',
+      color: '#FFA800',
     },
     {
       titre: 'Adaptabilité',
-      description: 'Facilité à m\'adapter aux nouvelles situations',
-      item: '🌀',
-      itemName: 'Ender Pearl',
-      color: '#8B5CF6',
+      description: 'Flexibilité face aux changements et nouvelles situations',
+      icon: '🔄',
+      color: '#00FFE0',
+    },
+    {
+      titre: 'Curiosité',
+      description: 'Soif d\'apprendre et de découvrir de nouvelles technologies',
+      icon: '🔍',
+      color: '#FFA800',
+    },
+    {
+      titre: 'Persévérance',
+      description: 'Détermination à surmonter les obstacles et défis',
+      icon: '💪',
+      color: '#00FFE0',
     },
   ];
 
   return (
     <GenericPage
       title="Mes atouts"
-      subtitle="Clique sur les coffres pour découvrir mes atouts"
+      subtitle="Les qualités qui font la différence"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Grid moderne avec 3 colonnes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {atouts.map((atout, index) => (
           <motion.div
             key={atout.titre}
-            className="relative"
-            initial={{ opacity: 0, y: 20 }}
+            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all overflow-hidden"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
             viewport={{ once: true }}
+            whileHover={{ y: -5 }}
           >
-            {/* Item Minecraft qui flotte au-dessus quand le coffre est ouvert */}
-            <motion.div
-              className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10"
-              initial={{ opacity: 0, y: 20, scale: 0 }}
-              animate={
-                openChest === index
-                  ? { opacity: 1, y: 0, scale: 1 }
-                  : { opacity: 0, y: 20, scale: 0 }
-              }
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-            >
+            {/* Gradient de fond au hover */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background: `radial-gradient(circle at top right, ${atout.color}15, transparent)`,
+              }}
+            />
+
+            {/* Contenu de la carte */}
+            <div className="relative z-10">
+              {/* Icône */}
               <motion.div
-                className="relative"
-                animate={
-                  openChest === index
-                    ? { y: [0, -10, 0] }
-                    : {}
-                }
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
+                className="text-6xl mb-4"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                {atout.icon}
+              </motion.div>
+
+              {/* Titre */}
+              <h3
+                className="text-2xl font-bold text-white mb-3"
+                style={{
+                  color: atout.color === '#FFA800' ? '#FFA800' : '#00FFE0',
                 }}
               >
-                <div
-                  className="text-6xl filter drop-shadow-2xl"
-                  style={{
-                    filter: `drop-shadow(0 0 20px ${atout.color})`,
-                  }}
-                >
-                  {atout.item}
-                </div>
-                <div
-                  className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-bold whitespace-nowrap px-2 py-1 rounded"
-                  style={{
-                    backgroundColor: atout.color,
-                    color: '#000',
-                  }}
-                >
-                  {atout.itemName}
-                </div>
-              </motion.div>
-            </motion.div>
+                {atout.titre}
+              </h3>
 
-            {/* Coffre Minecraft */}
-            <motion.div
-              className="relative cursor-pointer select-none"
-              onClick={() => setOpenChest(openChest === index ? null : index)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              {/* Coffre */}
-              <div className="relative bg-[#8B4513] border-4 border-[#654321] rounded-lg overflow-hidden shadow-2xl">
-                {/* Couvercle du coffre avec animation */}
-                <motion.div
-                  className="relative bg-[#A0522D] border-b-4 border-[#654321] p-4"
-                  style={{ transformOrigin: 'top' }}
-                  animate={{
-                    rotateX: openChest === index ? -90 : 0,
-                  }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                >
-                  {/* Serrure pixel art */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="w-8 h-8 bg-[#FFD700] border-2 border-[#B8860B] rounded-sm flex items-center justify-center">
-                      <div className="w-2 h-4 bg-[#654321] rounded-sm" />
-                    </div>
-                  </div>
-                  {/* Texture bois pixel art */}
-                  <div className="space-y-1 opacity-30">
-                    <div className="h-1 bg-[#654321] rounded" />
-                    <div className="h-1 bg-[#654321] rounded w-3/4" />
-                  </div>
-                </motion.div>
+              {/* Description */}
+              <p className="text-white/70 text-sm leading-relaxed">
+                {atout.description}
+              </p>
+            </div>
 
-                {/* Corps du coffre */}
-                <div className="bg-[#8B4513] p-6">
-                  {/* Contenu qui apparaît quand le coffre est ouvert */}
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={
-                      openChest === index
-                        ? { opacity: 1, y: 0 }
-                        : { opacity: 0, y: -10 }
-                    }
-                    transition={{ duration: 0.3, delay: openChest === index ? 0.2 : 0 }}
-                  >
-                    <h3
-                      className="text-2xl font-bold mb-3 font-mono"
-                      style={{ color: atout.color }}
-                    >
-                      {atout.titre}
-                    </h3>
-                    <p className="text-white/90 font-mono text-sm leading-relaxed">
-                      {atout.description}
-                    </p>
-                  </motion.div>
-
-                  {/* Message quand fermé */}
-                  {openChest !== index && (
-                    <motion.div
-                      className="text-center"
-                      initial={{ opacity: 1 }}
-                      animate={{ opacity: openChest === index ? 0 : 1 }}
-                    >
-                      <p className="text-white/60 font-mono text-sm">
-                        Clique pour ouvrir 🔓
-                      </p>
-                    </motion.div>
-                  )}
-                </div>
-
-                {/* Texture pixel art sur les côtés */}
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
-                  <div className="grid grid-cols-8 grid-rows-8 h-full">
-                    {Array.from({ length: 64 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className={`${i % 3 === 0 ? 'bg-black' : 'bg-transparent'}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Ombre portée style Minecraft */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-4 bg-black/30 blur-md rounded-full" />
-            </motion.div>
-
-            {/* Particules quand ouvert */}
-            {openChest === index && (
-              <>
-                <motion.div
-                  className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full"
-                  style={{ backgroundColor: atout.color }}
-                  animate={{
-                    y: [0, -30, 0],
-                    x: [0, -20, 0],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: 'easeOut',
-                  }}
-                />
-                <motion.div
-                  className="absolute top-1/4 right-1/4 w-1 h-1 rounded-full"
-                  style={{ backgroundColor: atout.color }}
-                  animate={{
-                    y: [0, -35, 0],
-                    x: [0, 20, 0],
-                    opacity: [0, 1, 0],
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: 'easeOut',
-                    delay: 0.3,
-                  }}
-                />
-              </>
-            )}
+            {/* Ligne décorative en bas */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
+              style={{ backgroundColor: atout.color }}
+            />
           </motion.div>
         ))}
       </div>

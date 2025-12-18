@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Award, Code, Mountain, Shield } from 'lucide-react';
+import { Award, Code, Mountain, Shield, Rocket } from 'lucide-react';
 
 export default function About() {
   return (
@@ -30,7 +30,7 @@ export default function About() {
               <div className="relative mb-6">
                 <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFA800]/20 to-[#00FFE0]/20 border border-white/10">
                   <img
-                    src="https://via.placeholder.com/400"
+                    src="/images/PP.png"
                     alt="Nathan Carqueijeiro"
                     className="w-full h-full object-cover"
                   />
@@ -66,6 +66,14 @@ export default function About() {
             >
               <div className="space-y-4">
                 <p className="text-xl text-white/70 leading-relaxed">
+                  Passionné par l'<span className="text-[#FFA800] font-semibold">entrepreneuriat</span> depuis
+                  mon plus jeune âge, j'ai tenté ma première aventure entrepreneuriale avec une activité de{' '}
+                  <span className="text-[#FFA800] font-semibold">revente de chaussures</span> à{' '}
+                  <span className="font-semibold text-white">15 ans</span>. Cette première expérience m'a
+                  beaucoup appris sur le commerce et m'a donné envie de continuer à entreprendre.
+                </p>
+
+                <p className="text-xl text-white/70 leading-relaxed">
                   Après un bac STI2D option ITEC, j'ai poursuivi avec un{' '}
                   <span className="text-[#FFA800] font-semibold">
                     BTS CIEL option Informatique et Réseaux
@@ -74,20 +82,19 @@ export default function About() {
                   <span className="text-[#00FFE0] font-semibold">
                     BUT 3 Informatique parcours Développement logiciel
                   </span>{' '}
-                  en alternance.
+                  en alternance. Parallèlement à mes études, j'ai développé mon activité de{' '}
+                  <span className="text-[#00FFE0] font-semibold">freelance</span> en créant des sites web
+                  pour mes clients et en me spécialisant dans le{' '}
+                  <span className="text-[#00FFE0] font-semibold">SaaS building</span>, activité que je
+                  poursuis encore aujourd'hui.
                 </p>
 
-                <p className="text-xl text-white/70 leading-relaxed">
-                  Passionné par la <span className="text-[#FFA800] font-semibold">cybersécurité</span> et
-                  le <span className="text-[#00FFE0] font-semibold">développement web</span>, j'aime créer
-                  des applications performantes et sécurisées. Mon alternance me permet d'appliquer
-                  mes connaissances sur des projets concrets et d'apprendre au quotidien.
-                </p>
+                
 
                 <p className="text-xl text-white/70 leading-relaxed">
                   En dehors de l'informatique, je pratique la <span className="text-[#00FFE0] font-semibold">course à pied</span> et
-                  le <span className="text-[#00FFE0] font-semibold">trail</span>. Ces activités m'apprennent
-                  la discipline, la gestion de l'effort et le dépassement de soi.
+                  le <span className="text-[#00FFE0] font-semibold">trail</span>. Ces activités m'aident à
+                  développer ma discipline et ma persévérance.
                 </p>
               </div>
 
@@ -99,7 +106,22 @@ export default function About() {
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 rounded-lg bg-[#FFA800]/20 flex items-center justify-center group-hover:bg-[#FFA800]/30 transition-colors">
-                      <Code className="text-[#FFA800]" size={20} />
+                      <Rocket className="text-[#FFA800]" size={20} />
+                    </div>
+                    <h3 className="text-lg font-semibold text-white">Entrepreneuriat</h3>
+                  </div>
+                  <p className="text-sm text-white/60">
+                    Freelance, SaaS Building, E-commerce
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  className="p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group"
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-lg bg-[#00FFE0]/20 flex items-center justify-center group-hover:bg-[#00FFE0]/30 transition-colors">
+                      <Code className="text-[#00FFE0]" size={20} />
                     </div>
                     <h3 className="text-lg font-semibold text-white">Développement</h3>
                   </div>
@@ -113,8 +135,8 @@ export default function About() {
                   whileHover={{ scale: 1.02 }}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-[#00FFE0]/20 flex items-center justify-center group-hover:bg-[#00FFE0]/30 transition-colors">
-                      <Shield className="text-[#00FFE0]" size={20} />
+                    <div className="w-10 h-10 rounded-lg bg-[#FFA800]/20 flex items-center justify-center group-hover:bg-[#FFA800]/30 transition-colors">
+                      <Shield className="text-[#FFA800]" size={20} />
                     </div>
                     <h3 className="text-lg font-semibold text-white">Cybersécurité</h3>
                   </div>
@@ -128,8 +150,8 @@ export default function About() {
                   whileHover={{ scale: 1.02 }}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-[#FFA800]/20 flex items-center justify-center group-hover:bg-[#FFA800]/30 transition-colors">
-                      <Mountain className="text-[#FFA800]" size={20} />
+                    <div className="w-10 h-10 rounded-lg bg-[#00FFE0]/20 flex items-center justify-center group-hover:bg-[#00FFE0]/30 transition-colors">
+                      <Mountain className="text-[#00FFE0]" size={20} />
                     </div>
                     <h3 className="text-lg font-semibold text-white">Trail & Course</h3>
                   </div>
@@ -139,24 +161,25 @@ export default function About() {
                 </motion.div>
 
                 <motion.div
-                  className="p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group"
+                  className="p-5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors group md:col-span-2"
                   whileHover={{ scale: 1.02 }}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-lg bg-[#00FFE0]/20 flex items-center justify-center group-hover:bg-[#00FFE0]/30 transition-colors">
-                      <Award className="text-[#00FFE0]" size={20} />
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-[#FFA800] to-[#00FFE0] flex items-center justify-center">
+                      <Award className="text-black" size={20} />
                     </div>
-                    <h3 className="text-lg font-semibold text-white">Alternance</h3>
+                    <h3 className="text-lg font-semibold text-white">BUT 3 Informatique en Alternance</h3>
                   </div>
                   <p className="text-sm text-white/60">
-                    Projets professionnels en entreprise
+                    Développement logiciel • Projets professionnels en entreprise
                   </p>
                 </motion.div>
               </div>
 
               <div className="pt-8">
                 <a
-                  href="/cv.pdf"
+                  href="/CV_2025-05-20_Nathan_CarqueijeiroBUT3RA.pdf"
+                  download
                   className="inline-block px-8 py-4 rounded-lg bg-gradient-to-r from-[#FFA800] to-[#00FFE0] text-black font-semibold hover:opacity-90 transition-opacity"
                 >
                   Télécharger mon CV

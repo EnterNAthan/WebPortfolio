@@ -6,6 +6,7 @@ import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import MiniGame from './pages/MiniGame';
 import { Formation, Competences, Atouts, Loisirs } from './pages/GenericPage';
 import './index.css';
 
@@ -30,6 +31,14 @@ function AnimatedRoutes() {
             element={
               <PageTransition>
                 <About />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="mini-game"
+            element={
+              <PageTransition>
+                <MiniGame />
               </PageTransition>
             }
           />

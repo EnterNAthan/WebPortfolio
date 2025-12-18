@@ -45,7 +45,7 @@ export default function CursorGlassEffect() {
       }}
       transition={{
         duration: 0.4,
-        ease: [0.16, 1, 0.3, 1], // Apple's ease curve
+        ease: [0.16, 1, 0.3, 1], 
       }}
     >
       {/* Magnifying glass / Loupe effect */}
