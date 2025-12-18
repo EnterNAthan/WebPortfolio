@@ -2,61 +2,62 @@ import { motion } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-// Exemple de données de projets - À remplacer par vos vraies données
+// Projets réalisés
 const projects = [
   {
     id: 1,
-    title: 'Application Web de Gestion',
-    description: 'Développement d\'une application full-stack avec React et Node.js',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Web', 'Full-Stack'],
-    competences: ['Réaliser', 'Optimiser'],
+    title: 'Among Us IoT - Jeu Distribué sur Raspberry Pi',
+    description: 'Développement d\'un jeu multijoueur distribué inspiré d\'Among Us sur un réseau de Raspberry Pi. Architecture IoT permettant aux joueurs de se connecter depuis différents Raspberry Pi pour jouer ensemble en temps réel. Gestion des communications réseau, synchronisation des états de jeu et interface utilisateur interactive.',
+    image: '/images/AmongUs.jpg',
+    tags: ['IoT', 'Réseau', 'Python'],
+    competences: ['Réaliser', 'Collaborer', 'Optimiser'],
     date: '2024',
+    featured: true,
   },
   {
     id: 2,
-    title: 'Plateforme de Cybersécurité',
-    description: 'Outil de détection et analyse de vulnérabilités',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Cybersécurité', 'Python'],
-    competences: ['Réaliser', 'Collaborer'],
+    title: 'Application Web de Gestion',
+    description: 'Application full-stack complète avec interface React moderne et backend Node.js. Fonctionnalités de CRUD, authentification utilisateur, gestion des rôles et permissions. Base de données relationnelle avec optimisation des requêtes.',
+    image: '/images/ApplisWebGestion.png',
+    tags: ['Web', 'Full-Stack', 'React'],
+    competences: ['Réaliser', 'Optimiser'],
     date: '2024',
   },
   {
     id: 3,
-    title: 'API REST Optimisée',
-    description: 'Conception et optimisation d\'une API performante',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Backend', 'Performance'],
-    competences: ['Optimiser', 'Réaliser'],
+    title: 'Plateforme Honeypot de Cybersécurité',
+    description: 'Système de détection d\'intrusions et d\'analyse de cyberattaques. Déploiement de honeypots pour capturer et analyser les tentatives d\'exploitation. Dashboard de visualisation des menaces en temps réel avec alertes automatiques.',
+    image: '/images/HoneypotPlateform.jpg',
+    tags: ['Cybersécurité', 'Python', 'Réseau'],
+    competences: ['Réaliser', 'Collaborer'],
     date: '2024',
   },
   {
     id: 4,
-    title: 'Projet Collaboratif en Équipe',
-    description: 'Gestion de projet agile avec méthodologie Scrum',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Management', 'Agile'],
-    competences: ['Collaborer'],
-    date: '2023',
+    title: 'API REST Optimisée',
+    description: 'Conception et développement d\'une API RESTful haute performance avec documentation OpenAPI. Mise en place de cache Redis, pagination efficace, rate limiting et monitoring des performances. Tests unitaires et d\'intégration complets.',
+    image: '/images/APIREStOptimisé.png',
+    tags: ['Backend', 'Performance', 'API'],
+    competences: ['Optimiser', 'Réaliser'],
+    date: '2024',
   },
   {
     id: 5,
-    title: 'Architecture Microservices',
-    description: 'Refonte d\'une application monolithique en microservices',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Architecture', 'DevOps'],
-    competences: ['Réaliser', 'Optimiser', 'Collaborer'],
-    date: '2023',
+    title: 'Projet Agile en Équipe',
+    description: 'Gestion de projet collaboratif avec méthodologie Scrum. Organisation des sprints, planification des user stories, daily stand-ups et rétrospectives. Utilisation d\'outils de gestion agile (Jira, Trello) pour le suivi du backlog et la coordination d\'équipe.',
+    image: '/images/Agile.jpg',
+    tags: ['Management', 'Agile', 'Scrum'],
+    competences: ['Collaborer'],
+    date: '2024',
   },
   {
     id: 6,
-    title: 'Dashboard Analytique',
-    description: 'Interface de visualisation de données temps réel',
-    image: 'https://via.placeholder.com/400x300',
-    tags: ['Frontend', 'Data'],
-    competences: ['Réaliser', 'Optimiser'],
-    date: '2023',
+    title: 'Architecture Monolithe Modulaire',
+    description: 'Refonte d\'une architecture applicative vers un modèle monolithe modulaire. Découpage en modules métier indépendants avec interfaces claires. Amélioration de la maintenabilité, testabilité et scalabilité du système.',
+    image: '/images/modular_monolith.png',
+    tags: ['Architecture', 'Backend', 'Design'],
+    competences: ['Réaliser', 'Optimiser', 'Collaborer'],
+    date: '2024',
   },
 ];
 
@@ -187,14 +188,139 @@ export default function Projects() {
         </div>
       </section>
 
+      {/* Projet en vedette */}
+      {!selectedCompetence && selectedTag === 'Tous' && (
+        <section className="pb-12 px-6">
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="mb-6"
+            >
+              <h2 className="text-2xl font-bold text-white mb-2">
+                🌟 Projet en Vedette
+              </h2>
+              <p className="text-white/60">Mon projet le plus innovant</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
+              <Link
+                to={`/projects/${projects[0].id}`}
+                className="group block relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#FFA800]/10 to-[#00FFE0]/10 border-2 border-[#FFA800]/30 hover:border-[#00FFE0]/50 transition-all"
+              >
+                <div className="grid md:grid-cols-2 gap-0">
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden bg-white/5">
+                    <img
+                      src={projects[0].image}
+                      alt={projects[0].title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+
+                    {/* Badge Featured */}
+                    <div className="absolute top-4 left-4 px-4 py-2 rounded-full bg-gradient-to-r from-[#FFA800] to-[#00FFE0] text-black text-sm font-bold shadow-lg">
+                      ⭐ Featured Project
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-8 md:p-10 flex flex-col justify-center">
+                    {/* Tags */}
+                    <div className="flex items-center gap-2 mb-4">
+                      {projects[0].tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white/80 border border-white/30"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      <span className="ml-auto text-sm text-white/50">
+                        {projects[0].date}
+                      </span>
+                    </div>
+
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 group-hover:text-[#FFA800] transition-colors">
+                      {projects[0].title}
+                    </h3>
+
+                    <p className="text-white/70 mb-6 leading-relaxed">
+                      {projects[0].description}
+                    </p>
+
+                    {/* Compétences */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {projects[0].competences.map((competence) => {
+                        const colors = competenceColors[competence];
+                        return (
+                          <span
+                            key={competence}
+                            className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${colors.bg} ${colors.text} border ${colors.border}`}
+                          >
+                            {competence}
+                          </span>
+                        );
+                      })}
+                    </div>
+
+                    {/* CTA */}
+                    <div className="inline-flex items-center gap-2 text-white group-hover:text-[#00FFE0] transition-colors font-semibold">
+                      Découvrir le projet
+                      <svg
+                        className="w-5 h-5 transform group-hover:translate-x-2 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Glow Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#FFA800]/5 to-[#00FFE0]/5 blur-2xl" />
+                </div>
+              </Link>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
       {/* Projects Grid */}
       <section className="pb-20 px-6">
         <div className="max-w-7xl mx-auto">
+          {!selectedCompetence && selectedTag === 'Tous' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="mb-8"
+            >
+              <h2 className="text-2xl font-bold text-white mb-2">
+                Tous les Projets
+              </h2>
+              <p className="text-white/60">Explorez l'ensemble de mes réalisations</p>
+            </motion.div>
+          )}
+
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             layout
           >
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.filter(p => !p.featured).map((project, index) => (
               <motion.div
                 key={project.id}
                 layout
